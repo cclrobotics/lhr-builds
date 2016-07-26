@@ -1,0 +1,42 @@
+#!/bin/bash
+
+# Check for Doxyfile.
+if [ -f Doxyfile ]; then
+	# Add "header" to end of file
+	echo "" >> Doxyfile
+	echo "# Parameters appended by doxyfile-gen-neato-config script" >> Doxyfile
+	echo "# to augment the default configuration." >> Doxyfile
+	echo "" >> Doxyfile
+
+
+	# Get new project name.
+	if [ $# -gt 0 ]; then
+		PROJECT_NAME="PROJECT_NAME = \"""$1""\""
+		echo $PROJECT_NAME >> Doxyfile
+		echo $PROJECT_NAME
+	fi
+
+	# Change output directory.
+	echo "OUTPUT_DIRECTORY = docs" >> Doxyfile
+
+	# Create subdirs as the codebase is large.
+	echo "CREATE_SUBDIRS = YES" >> Doxyfile
+
+	# Document subfolders.
+	echo "RECURSIVE = YES" >> Doxyfile
+
+	# Document things that aren't normally documented.
+	echo "EXTRACT_ALL = YES" >> Doxyfile
+	echo "EXTRACT_PRIVATE = YES" >> Doxyfile
+	echo "EXTRACT_PACKAGE = YES" >> Doxyfile
+	echo "EXTRACT_STATIC = YES" >> Doxyfile
+	echo "EXTRACT_ANON_NSPACES = YES" >> Doxyfile
+
+	# Enable stuff for generating call graphs.
+	echo "HAVE_DOT = YES" >> Doxyfile
+	echo "CALL_GRAPH = YES" >> Doxyfile
+	echo "CALLER_GRAPH = YES" >> Doxyfile
+
+else
+	echo "Doxyfile was not found in this directory.";
+fi;
